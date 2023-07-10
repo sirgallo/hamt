@@ -29,7 +29,7 @@ func main() {
 
   // retrieve the val at the key/val pair
   val1 := hamt.Retrieve("hello")
-	fmt.Println("actual:", val1, "expected: world")
+  fmt.Println("actual:", val1, "expected: world")
 
   // print the children
   hamt.PrintChildren()
