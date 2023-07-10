@@ -64,17 +64,11 @@ func TestHamtOperations(t *testing.T) {
 		t.Error("val 4 does not match expected val 4")
 	}
 
-	fmt.Println("delete key hello")
 	hamt.Delete("hello")
-	fmt.Println("delete key yup")
 	hamt.Delete("yup")
-	fmt.Println("delete key asdf")
 	hamt.Delete("asdf")
-	fmt.Println("delete key asdfasdf")
 	hamt.Delete("asdfasdf")
-	fmt.Println("delete key new")
 	hamt.Delete("new")
-	fmt.Println("delete key 6")
 	hamt.Delete("6")
 
 	expectedRootBitmap := uint32(3762030212)
