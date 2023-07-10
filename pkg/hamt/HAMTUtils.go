@@ -13,6 +13,7 @@ func (hamt *HAMT) getPosition(bitMap uint32, hash uint32, level int) int {
 	sparseIdx := getIndex(hash, hamt.BitChunkSize, level)
 	mask := uint32((1 << (hamt.TotalChildren - sparseIdx)) - 1)
 	isolatedBits := bitMap & mask
+	
 	return calculateHammingWeight(isolatedBits)
 }
 

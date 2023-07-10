@@ -11,6 +11,11 @@ Purely out of curiousity, I stumbled across the idea of Hash Array Mapped Tries 
 A `Hash Array Mapped Trie` is a memory efficient data structure that can be used to implement maps (associative arrays) and sets. HAMTs, when implemented with path copying and garbage collection, become persistent as well, which means that any function that utilizes them become pure.
 
 
+### Why use a HAMT?
+
+HAMT can be useful to implement maps and sets in situations where you want memory efficiency. They also are dynamically sized, unlike other map implementations where the map needs to be resized.
+
+
 ## Design
 
 
@@ -82,7 +87,7 @@ Using bitwise operators, we can get the index at a particular level in the trie 
 
 #### Dense Index
 
-To limit table size and create dynamically sized tables to limit memory usage (instead of fixed size child node arrays), we can take the calculated sparse index for the key and, for all non-zero bits to the right of it, caclulate the population count ([Hamming Weight](https://en.wikipedia.org/wiki/Hamming_weight#:~:text=The%20Hamming%20weight%20of%20a,string%20of%20the%20same%20length.)
+To limit table size and create dynamically sized tables to limit memory usage (instead of fixed size child node arrays), we can take the calculated sparse index for the key and, for all non-zero bits to the right of it, caclulate the population count ([Hamming Weight](https://en.wikipedia.org/wiki/Hamming_weight#:~:text=The%20Hamming%20weight%20of%20a,string%20of%20the%20same%20length.))
 
 In go, we can utilize the `math/bits` package to calculate the hamming weight efficiently:
 ```go
@@ -91,16 +96,30 @@ func calculateHammingWeight(bitmap uint32) int {
 }
 ```
 
+calculating hamming weight naively:
+```
+hammingWeight(uint32 bits): 
+  weight = 0
+  for bits != 0:
+    if bits & 1 == 1:
+      weight++
+    bits >>= 1
+  
+  return weight
+```
+
 to calculate position:
 ```go
 func (hamt *HAMT) getPosition(bitMap uint32, hash uint32, level int) int {
 	sparseIdx := getIndex(hash, hamt.BitChunkSize, level)
-	isolatedBits := bitMap & ((1 << (hamt.TotalChildren - sparseIdx)) - 1)
+	mask := uint32((1 << (hamt.TotalChildren - sparseIdx)) - 1)
+	isolatedBits := bitMap & mask
+	
 	return calculateHammingWeight(isolatedBits)
 }
 ```
 
-`isolatedBits` is all of the non-zero bits right of the index, which is applied as a mask to the bitMap at that particular node.
+`isolatedBits` is all of the non-zero bits right of the index, which can be calculated by is applying a mask to the bitMap at that particular node. The mask is calculated from all of from the start of the sparse index right.
 
 
 ### Table Resizing
