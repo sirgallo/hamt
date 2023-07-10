@@ -66,9 +66,7 @@ func (hamt *HAMT) insertRecursive(node *HAMTNode, key string, value interface{},
 
 				return node
 			}
-		} else {
-			return hamt.insertRecursive(node.Children[pos], key, value, level + 1)
-		}
+		} else { return hamt.insertRecursive(node.Children[pos], key, value, level + 1) }
 	}
 }
 
@@ -88,9 +86,7 @@ func (hamt *HAMT) retrieveRecursive(node *HAMTNode, key string, hash uint32, lev
 
 		if childNode.IsLeafNode && key == childNode.Key {
 			return childNode.Value
-		} else {
-			return hamt.retrieveRecursive(node.Children[pos], key, hash, level + 1)
-		}
+		} else { return hamt.retrieveRecursive(node.Children[pos], key, hash, level + 1) }
 	}
 }
 
@@ -113,8 +109,6 @@ func (hamt *HAMT) deleteRecursive(node *HAMTNode, key string, hash uint32, level
 			node.Children = ShrinkTable(node.Children, node.BitMap, pos)
 			
 			return true
-		} else {
-			return hamt.deleteRecursive(node.Children[pos], key, hash, level + 1)
-		}
+		} else { return hamt.deleteRecursive(node.Children[pos], key, hash, level + 1) }
 	}
 }
