@@ -21,15 +21,16 @@ func NewHAMT() *HAMT {
 
 func NewLeafNode(key string, value interface{}) *HAMTNode {
 	return &HAMTNode{ 
-		Key: key, Value: value, 
-		IsLeafNode: true, BitMap: 0, 
-		Children: []*HAMTNode{},
+		Key: key, 
+		Value: value, 
+		IsLeafNode: true,
 	}
 }
 
 func NewInternalNode() *HAMTNode {
 	return &HAMTNode{
-		IsLeafNode: false, BitMap: 0,
+		IsLeafNode: false, 
+		BitMap: 0,
 		Children: []*HAMTNode{},
 	}
 }

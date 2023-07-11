@@ -3,7 +3,7 @@
 
 ## Background
 
-Purely out of curiousity, I stumbled across the idea of Hash Array Mapped Tries in my search to create my own implementations of thread safe data structures in Go utilizing non-blocking operations, specifically, atomic operations like [Compare-and-Swap](https://en.wikipedia.org/wiki/Compare-and-swap). Selecting a data structure for maps was a challenge until I stumbled up the [CTrie](https://en.wikipedia.org/wiki/Ctrie), which is a thread safe, non-blocking implementation of a HAMT. Before implementing my own concurrent trie, I wanted to understand the fundamentals of HAMTs and how to implement them myself. This implementation doesn't aim to be the most optimized, but it does aim to be clear and readable, since there does not seem to be a lot of documentation regarding this data structure beyond the original whitepaper, written by Phil Bagwell in 2000 [1](https://lampwww.epfl.ch/papers/idealhashtrees.pdf).
+Purely out of curiousity, I stumbled across the idea of `Hash Array Mapped Tries` in my search to create my own implementations of thread safe data structures in `Go` utilizing non-blocking operations, specifically, atomic operations like [Compare-and-Swap](https://en.wikipedia.org/wiki/Compare-and-swap). Selecting a data structure for maps was a challenge until I stumbled up the [CTrie](https://en.wikipedia.org/wiki/Ctrie), which is a thread safe, non-blocking implementation of a HAMT. Before implementing my own concurrent trie, I wanted to understand the fundamentals of HAMTs and how to implement them myself. This implementation doesn't aim to be the most optimized, but it does aim to be clear and readable, since there does not seem to be a lot of documentation regarding this data structure beyond the original whitepaper, written by Phil Bagwell in 2000 [1](https://lampwww.epfl.ch/papers/idealhashtrees.pdf).
 
 
 ## Overview
@@ -13,7 +13,7 @@ A `Hash Array Mapped Trie` is a memory efficient data structure that can be used
 
 ### Why use a HAMT?
 
-HAMT can be useful to implement maps and sets in situations where you want memory efficiency. They also are dynamically sized, unlike other map implementations where the map needs to be resized.
+HAMTs can be useful to implement maps and sets in situations where you want memory efficiency. They also are dynamically sized, unlike other map implementations where the map needs to be resized.
 
 
 ## Design
