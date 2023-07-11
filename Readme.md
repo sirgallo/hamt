@@ -5,7 +5,7 @@
 
 Import this repository to utilize the hash array mapped trie, implemented in Go.
 
-in your Go project main directory (where the go.mod file is located)
+in your `Go` project main directory (where the `go.mod` file is located)
 ```bash
 go get github.com/sirgallo/hamt
 go mod tidy
@@ -47,9 +47,9 @@ Check out [HashArrayMappedTrie](./docs/HashArrayMappedTrie.md)
 
 ## Tests
 
-[HAMTUtils_test](./pkg/hamt/HAMTUtils_test.go)
-
 [HAMT_test](./pkg/hamt/HAMT_test.go)
+
+[HAMTUtils_test](./pkg/hamt/HAMTUtils_test.go)
 
 To run tests:
 ```bash

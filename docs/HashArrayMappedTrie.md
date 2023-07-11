@@ -210,3 +210,7 @@ Pseudo-code:
 [1] [Ideal Hash Trees, Phil Bagwell](https://lampwww.epfl.ch/papers/idealhashtrees.pdf)
 
 [2] [libhamt](https://github.com/mkirchner/hamt)
+
+[3] [Hash Array Mapped Tries](https://worace.works/2016/05/24/hash-array-mapped-tries/)
+
+[4] [Hash array mapped trie - wiki](https://en.wikipedia.org/wiki/Hash_array_mapped_trie)
