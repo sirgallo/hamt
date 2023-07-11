@@ -1,7 +1,9 @@
-package hamt
+package hamttests
 
 import "testing"
 import "fmt"
+
+import "github.com/sirgallo/hamt/pkg/hamt"
 import "github.com/sirgallo/hamt/pkg/utils"
 
 
@@ -16,7 +18,7 @@ func TestGetIndex(t *testing.T) {
 	expectedValues1 := []int{9, 30, 15, 18, 25, 10}
 
 	for idx, val := range expectedValues1 {
-		index := getIndex(hash1, chunkSize, idx)
+		index := hamt.GetIndex(hash1, chunkSize, idx)
 		t.Logf("index: %d, expected: %d", index, val)
 		if index != val {
 			t.Error("index produced does not match expected value")
@@ -31,7 +33,7 @@ func TestGetIndex(t *testing.T) {
 	expectedValues2 := []int{5, 2, 12, 25, 12, 4}
 
 	for idx, val := range expectedValues2 {
-		index := getIndex(hash2, chunkSize, idx)
+		index := hamt.GetIndex(hash2, chunkSize, idx)
 		t.Logf("index: %d, expected: %d", index, val)
 		if index != val {
 			t.Error("index produced does not match expected value")

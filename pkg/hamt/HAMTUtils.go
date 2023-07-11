@@ -6,11 +6,11 @@ import "math"
 
 
 func (hamt *HAMT) getSparseIndex(hash uint32, level int) int {
-	return getIndex(hash, hamt.BitChunkSize, level)
+	return GetIndex(hash, hamt.BitChunkSize, level)
 }
 
 func (hamt *HAMT) getPosition(bitMap uint32, hash uint32, level int) int {
-	sparseIdx := getIndex(hash, hamt.BitChunkSize, level)
+	sparseIdx := GetIndex(hash, hamt.BitChunkSize, level)
 	mask := uint32((1 << (hamt.TotalChildren - sparseIdx)) - 1)
 	isolatedBits := bitMap & mask
 	
@@ -21,7 +21,7 @@ func calculateHammingWeight(bitmap uint32) int {
 	return bits.OnesCount32(bitmap)
 }
 
-func getIndex(hash uint32, chunkSize int, level int) int {
+func GetIndex(hash uint32, chunkSize int, level int) int {
 	slots := int(math.Pow(float64(2), float64(chunkSize)))
 	mask := uint32(slots - 1)
 	shiftSize := slots - (chunkSize * (level + 1))

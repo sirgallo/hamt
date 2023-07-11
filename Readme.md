@@ -53,5 +53,5 @@ Check out [HashArrayMappedTrie](./docs/HashArrayMappedTrie.md)
 
 To run tests:
 ```bash
-go test -v ./pkg/hamt/
+go test -v ./pkg/hamt/tests
 ```

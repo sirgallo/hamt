@@ -1,11 +1,12 @@
-package hamt
+package hamttests
 
 import "testing"
 import "fmt"
 
+import "github.com/sirgallo/hamt/pkg/hamt"
 
 func TestHamtOperations(t *testing.T) {
-	hamt := NewHAMT()
+	hamt := hamt.NewHAMT()
 
 	hamt.Insert("hello", "world")
 	hamt.Insert("new", "wow!")
