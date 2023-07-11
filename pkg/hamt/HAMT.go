@@ -1,5 +1,6 @@
 package hamt
 
+import "fmt"
 import "math"
 
 import "github.com/sirgallo/hamt/pkg/utils"
@@ -112,7 +113,7 @@ func (hamt *HAMT) deleteRecursive(node *HAMTNode, key string, hash uint32, level
 			hamt.deleteRecursive(node.Children[pos], key, hash, level + 1) 
 			popCount := calculateHammingWeight(node.Children[pos].BitMap)
 
-			if popCount > 0 {
+			if popCount == 0 { // if empty internal node, remove from the mapped array
 				node.BitMap = setBit(node.BitMap, hamt.TotalChildren, index)
 				node.Children = ShrinkTable(node.Children, node.BitMap, pos)
 			} 
