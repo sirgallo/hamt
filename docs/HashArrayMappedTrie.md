@@ -179,7 +179,7 @@ Pseudo-code:
 ```
 
 
-### Retrieve
+#### Retrieve
 
 Pseudo-code:
 ```
@@ -192,7 +192,7 @@ Pseudo-code:
 ```
 
 
-### Delete
+#### Delete
 
 Pseudo-code:
 ```
