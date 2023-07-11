@@ -3,7 +3,7 @@
 
 ## Installation
 
-Import this repository to utilize the hash array mapped trie, implemented in Go.
+Import this repository to utilize the hash array mapped trie, implemented in `Go`.
 
 in your `Go` project main directory (where the `go.mod` file is located)
 ```bash

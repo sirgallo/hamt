@@ -26,7 +26,10 @@ func TestHamtOperations(t *testing.T) {
 	hamt.Insert("fasdfasdf", "info!")
 	hamt.Insert("woah", "done")
 
-	fmt.Printf("bitmap of root after inserts: %032b\n",hamt.Root.BitMap)
+	fmt.Printf("bitmap of root after inserts: %032b\n", hamt.Root.BitMap)
+
+	fmt.Println("hamt after inserts")
+	hamt.PrintChildren()
 	
 	expectedBitMap := uint32(3975939716)
 	t.Log("actual bitmap:", hamt.Root.BitMap, "expected bitmap:", expectedBitMap)
@@ -71,7 +74,12 @@ func TestHamtOperations(t *testing.T) {
 	hamt.Delete("new")
 	hamt.Delete("6")
 
-	expectedRootBitmap := uint32(3762030212)
+	fmt.Printf("bitmap of root after deletes: %032b\n", hamt.Root.BitMap)
+
+	fmt.Println("hamt after deletes")
+	hamt.PrintChildren()
+
+	expectedRootBitmap := uint32(1614546564)
 	t.Log("actual bitmap:", hamt.Root.BitMap, "expected bitmap:", expectedRootBitmap)
 	if expectedRootBitmap != hamt.Root.BitMap {
 		t.Error("actual bitmap does not match expected bitmap")

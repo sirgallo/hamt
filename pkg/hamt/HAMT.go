@@ -19,7 +19,7 @@ func NewHAMT() *HAMT {
 	}
 }
 
-func (hamt *HAMT) NewLeafNode(key string, value interface{}) *HAMTNode {
+func NewLeafNode(key string, value interface{}) *HAMTNode {
 	return &HAMTNode{ 
 		Key: key, Value: value, 
 		IsLeafNode: true, BitMap: 0, 
@@ -27,7 +27,7 @@ func (hamt *HAMT) NewLeafNode(key string, value interface{}) *HAMTNode {
 	}
 }
 
-func (hamt *HAMT) NewInternalNode() *HAMTNode {
+func NewInternalNode() *HAMTNode {
 	return &HAMTNode{
 		IsLeafNode: false, BitMap: 0,
 		Children: []*HAMTNode{},
@@ -35,20 +35,18 @@ func (hamt *HAMT) NewInternalNode() *HAMTNode {
 }
 
 func (hamt *HAMT) Insert(key string, value interface{}) {
-	hamt.Root = hamt.insertRecursive(hamt.Root, key, value, 0)
+	hamt.insertRecursive(hamt.Root, key, value, 0)
 }
 
-func (hamt *HAMT) insertRecursive(node *HAMTNode, key string, value interface{}, level int) *HAMTNode {
+func (hamt *HAMT) insertRecursive(node *HAMTNode, key string, value interface{}, level int) {
 	hash := utils.FnvHash(key)
 	index := hamt.getSparseIndex(hash, level)
 
 	if ! isBitSet(node.BitMap, hamt.TotalChildren, index) {
-		newLeaf := hamt.NewLeafNode(key, value)
+		newLeaf := NewLeafNode(key, value)
 		node.BitMap = setBit(node.BitMap, hamt.TotalChildren, index)
 		pos := hamt.getPosition(node.BitMap, hash, level)
 		node.Children = ExtendTable(node.Children, node.BitMap, pos, newLeaf)
-		
-		return node
 	} else {
 		pos := hamt.getPosition(node.BitMap, hash, level)
 		childNode := node.Children[pos]
@@ -56,17 +54,14 @@ func (hamt *HAMT) insertRecursive(node *HAMTNode, key string, value interface{},
 		if childNode.IsLeafNode {
 			if key == childNode.Key {
 				node.Value = value
-				return node
 			} else {
-				newInternalNode := hamt.NewInternalNode()
+				newInternalNode := NewInternalNode()
 				node.Children[pos] = newInternalNode
 				
 				hamt.insertRecursive(node.Children[pos], childNode.Key, childNode.Value, level + 1)
 				hamt.insertRecursive(node.Children[pos], key, value, level + 1)
-
-				return node
 			}
-		} else { return hamt.insertRecursive(node.Children[pos], key, value, level + 1) }
+		} else { hamt.insertRecursive(node.Children[pos], key, value, level + 1) }
 	}
 }
 
@@ -104,11 +99,25 @@ func (hamt *HAMT) deleteRecursive(node *HAMTNode, key string, hash uint32, level
 		pos := hamt.getPosition(node.BitMap, hash, level)
 		childNode := node.Children[pos]
 		
-		if childNode.IsLeafNode && key == childNode.Key {
-			node.BitMap = setBit(node.BitMap, hamt.TotalChildren, index)
-			node.Children = ShrinkTable(node.Children, node.BitMap, pos)
+		if childNode.IsLeafNode {
+			if  key == childNode.Key {
+				node.BitMap = setBit(node.BitMap, hamt.TotalChildren, index)
+				node.Children = ShrinkTable(node.Children, node.BitMap, pos)
+				
+				return true
+			}
 			
+			return false
+		} else { 
+			hamt.deleteRecursive(node.Children[pos], key, hash, level + 1) 
+			popCount := calculateHammingWeight(node.Children[pos].BitMap)
+
+			if popCount > 0 {
+				node.BitMap = setBit(node.BitMap, hamt.TotalChildren, index)
+				node.Children = ShrinkTable(node.Children, node.BitMap, pos)
+			} 
+
 			return true
-		} else { return hamt.deleteRecursive(node.Children[pos], key, hash, level + 1) }
+		}
 	}
 }
