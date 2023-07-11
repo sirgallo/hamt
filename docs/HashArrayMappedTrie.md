@@ -8,7 +8,7 @@ Purely out of curiousity, I stumbled across the idea of Hash Array Mapped Tries 
 
 ## Overview
 
-A `Hash Array Mapped Trie` is a memory efficient data structure that can be used to implement maps (associative arrays) and sets. HAMTs, when implemented with path copying and garbage collection, become persistent as well, which means that any function that utilizes them become pure.
+A `Hash Array Mapped Trie` is a memory efficient data structure that can be used to implement maps (associative arrays) and sets. HAMTs, when implemented with path copying and garbage collection, become persistent as well, which means that any function that utilizes them becomes pure.
 
 
 ### Why use a HAMT?
@@ -87,7 +87,7 @@ Using bitwise operators, we can get the index at a particular level in the trie 
 
 #### Dense Index
 
-To limit table size and create dynamically sized tables to limit memory usage (instead of fixed size child node arrays), we can take the calculated sparse index for the key and, for all non-zero bits to the right of it, caclulate the population count ([Hamming Weight](https://en.wikipedia.org/wiki/Hamming_weight#:~:text=The%20Hamming%20weight%20of%20a,string%20of%20the%20same%20length.))
+To limit table size and create dynamically sized tables to limit memory usage (instead of fixed size child node arrays), we can take the calculated sparse index for the key and, for all non-zero bits to the right of it, caclulate the population count ([Hamming Weight](https://en.wikipedia.org/wiki/Hamming_weight))
 
 In go, we can utilize the `math/bits` package to calculate the hamming weight efficiently:
 ```go
@@ -127,7 +127,7 @@ func (hamt *HAMT) getPosition(bitMap uint32, hash uint32, level int) int {
 
 #### Extend Table
 
-When a position in the new table is calculated for an inserted element, the original table needs to be resized, and a new row at that particular location will be added, maintaining the sorted nature from the sparse index. This is done use go array slices, and copying elements from the original to the new table.
+When a position in the new table is calculated for an inserted element, the original table needs to be resized, and a new row at that particular location will be added, maintaining the sorted nature from the sparse index. This is done using go array slices, and copying elements from the original to the new table.
 
 ```go
 func ExtendTable(orig []*HAMTNode, bitMap uint32, pos int, newNode *HAMTNode) []*HAMTNode {
