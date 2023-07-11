@@ -1,6 +1,5 @@
 package hamt
 
-import "fmt"
 import "math"
 
 import "github.com/sirgallo/hamt/pkg/utils"
