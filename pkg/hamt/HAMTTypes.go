@@ -1,16 +1,16 @@
 package hamt
 
 
-type HAMTNode struct {
+type HAMTNode [T comparable] struct {
 	Key string
-	Value interface{}
+	Value T
 	IsLeafNode bool
 	BitMap uint32
-	Children []*HAMTNode
+	Children []*HAMTNode[T]
 }
 
-type HAMT struct {
+type HAMT [T comparable] struct {
 	BitChunkSize int
 	TotalChildren int
-	Root *HAMTNode
+	Root *HAMTNode[T]
 }

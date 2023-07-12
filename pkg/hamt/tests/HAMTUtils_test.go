@@ -85,3 +85,27 @@ level 3 = 11001 = 25
 level 4 = 01100 = 12
 level 5 = 00100 = 4
 */
+
+
+func TestSetBitmap(t *testing.T) {
+	bitmap := uint32(0)
+	index1 := 1
+
+	bitmap = hamt.SetBit(bitmap, index1)
+	fmt.Printf("current bitmap: %032b\n", bitmap)
+
+	isBitSet1 := hamt.IsBitSet(bitmap, index1)
+	if ! isBitSet1 {
+		t.Error("bit at index 1 is not set")
+	}
+
+	index5 := 5
+
+	bitmap = hamt.SetBit(bitmap, index5)
+	fmt.Printf("current bitmap: %032b\n", bitmap)
+	
+	isBitSet5 := hamt.IsBitSet(bitmap, index5)
+	if ! isBitSet5 {
+		t.Error("bit at index 5 is not set")
+	}
+}

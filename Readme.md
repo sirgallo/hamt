@@ -22,7 +22,8 @@ import "github.com/sirgallo/hamt/pkg/hamt"
 
 func main() {
   // initialize the hash array mapped trie
-  hamt := hamt.NewHAMT()
+  // HAMT is generic, utilizing T comparable, so initialize with the appropriate type
+  hamt := hamt.NewHAMT[string]()
 
   // insert a new key/val pair
   hamt.Insert("hello", "world")
