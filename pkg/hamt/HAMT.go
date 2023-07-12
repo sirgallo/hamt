@@ -43,9 +43,9 @@ func (hamt *HAMT) insertRecursive(node *HAMTNode, key string, value interface{},
 	hash := utils.FnvHash(key)
 	index := hamt.getSparseIndex(hash, level)
 
-	if ! isBitSet(node.BitMap, hamt.TotalChildren, index) {
+	if ! isBitSet(node.BitMap, index) {
 		newLeaf := NewLeafNode(key, value)
-		node.BitMap = setBit(node.BitMap, hamt.TotalChildren, index)
+		node.BitMap = setBit(node.BitMap, index)
 		pos := hamt.getPosition(node.BitMap, hash, level)
 		node.Children = ExtendTable(node.Children, node.BitMap, pos, newLeaf)
 	} else {
@@ -74,7 +74,7 @@ func (hamt *HAMT) Retrieve(key string) interface{} {
 func (hamt *HAMT) retrieveRecursive(node *HAMTNode, key string, hash uint32, level int) interface{} {
 	index := hamt.getSparseIndex(hash, level)
 	
-	if ! isBitSet(node.BitMap, hamt.TotalChildren, index) { 
+	if ! isBitSet(node.BitMap, index) { 
 		return nil 
 	} else {
 		pos := hamt.getPosition(node.BitMap, hash, level)
@@ -94,7 +94,7 @@ func (hamt *HAMT) Delete(key string) bool {
 func (hamt *HAMT) deleteRecursive(node *HAMTNode, key string, hash uint32, level int) bool {
 	index := hamt.getSparseIndex(hash, level)
 	
-	if ! isBitSet(node.BitMap, hamt.TotalChildren, index) { 
+	if ! isBitSet(node.BitMap, index) { 
 		return false 
 	} else {
 		pos := hamt.getPosition(node.BitMap, hash, level)
@@ -102,7 +102,7 @@ func (hamt *HAMT) deleteRecursive(node *HAMTNode, key string, hash uint32, level
 		
 		if childNode.IsLeafNode {
 			if  key == childNode.Key {
-				node.BitMap = setBit(node.BitMap, hamt.TotalChildren, index)
+				node.BitMap = setBit(node.BitMap, index)
 				node.Children = ShrinkTable(node.Children, node.BitMap, pos)
 				
 				return true
@@ -114,7 +114,7 @@ func (hamt *HAMT) deleteRecursive(node *HAMTNode, key string, hash uint32, level
 			popCount := calculateHammingWeight(node.Children[pos].BitMap)
 
 			if popCount == 0 { // if empty internal node, remove from the mapped array
-				node.BitMap = setBit(node.BitMap, hamt.TotalChildren, index)
+				node.BitMap = setBit(node.BitMap, index)
 				node.Children = ShrinkTable(node.Children, node.BitMap, pos)
 			} 
 
