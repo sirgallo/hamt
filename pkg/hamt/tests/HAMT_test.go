@@ -64,7 +64,7 @@ func TestHamtOperations(t *testing.T) {
 	}
 
 	val4 := hamt.Retrieve("asdfasdf")
-	expVal4 := "add 10"
+	expVal4 := "123123"
 	t.Logf("actual: %s, expected: %s", val4, expVal4)
 	if val4 != expVal4 {
 		t.Error("val 4 does not match expected val 4")

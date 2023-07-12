@@ -54,7 +54,7 @@ func (hamt *HAMT[T]) insertRecursive(node *HAMTNode[T], key string, value T, lev
 
 		if childNode.IsLeafNode {
 			if key == childNode.Key {
-				node.Value = value
+				node.Children[pos].Value = value
 			} else {
 				newInternalNode := NewInternalNode[T]()
 				node.Children[pos] = newInternalNode
